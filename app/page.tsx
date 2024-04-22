@@ -1,7 +1,20 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 
-export default function Home() {
+const getData = async (): Promise<Response> => {
+  const url = 'https://jsonplaceholder.typicode.com/todos/1';
+  const response = await fetch(url, {
+    next: {
+      revalidate: 3600,
+    },
+  });
+  return await response.json();
+}
+
+export default async function Home() {
+
+  await getData();
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
